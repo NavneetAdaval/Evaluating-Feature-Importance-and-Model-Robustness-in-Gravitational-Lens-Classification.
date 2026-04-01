@@ -37,7 +37,7 @@ Beyond accuracy, two research questions are investigated:
 
 ## Dataset
 
-* **Source:** [DeepLense](https://drive.google.com/...)
+* **Source:** Deeplense
 * **Classes:** 3 (no substructure, subhalo, vortex)
 * **Preprocessing:** Images are pre-normalized using min-max normalization
 * **Format:** Single-channel (grayscale) numpy arrays
