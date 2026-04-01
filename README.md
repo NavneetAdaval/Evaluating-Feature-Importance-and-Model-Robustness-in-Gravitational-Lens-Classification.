@@ -79,24 +79,24 @@ Augmentations were designed to respect the physical symmetries of gravitational 
 
 ```python
 @staticmethod
-def augment\_tensor(t):
+def augment\\\_tensor(t):
     # Random horizontal / vertical flip
     if random.random() > 0.5:
         t = TF.hflip(t)
     if random.random() > 0.5:
         t = TF.vflip(t)
     # Random 90° rotation (lensing images are rotationally symmetric)
-    angle = random.choice(\[0, 90, 180, 270])
+    angle = random.choice(\\\[0, 90, 180, 270])
     t = TF.rotate(t, angle)
-    # Mild Gaussian noise (σ sampled uniformly in \[0.01, 0.05])
+    # Mild Gaussian noise (σ sampled uniformly in \\\[0.01, 0.05])
     if random.random() > 0.5:
         sigma = random.uniform(0.01, 0.05)
-        t = t + torch.randn\_like(t) \* sigma
-    # Mild Gaussian blur (σ sampled uniformly in \[0.3, 1.0])
+        t = t + torch.randn\\\_like(t) \\\* sigma
+    # Mild Gaussian blur (σ sampled uniformly in \\\[0.3, 1.0])
     if random.random() > 0.4:
         arr = t.numpy()
-        sigma\_b = random.uniform(0.3, 1.0)
-        arr = gaussian\_filter(arr, sigma=\[0, sigma\_b, sigma\_b])
+        sigma\\\_b = random.uniform(0.3, 1.0)
+        arr = gaussian\\\_filter(arr, sigma=\\\[0, sigma\\\_b, sigma\\\_b])
         t = torch.tensor(arr)
     return t
 ```
@@ -173,16 +173,11 @@ Performance collapses to chance even with coarse 2×2 or 3×3 shuffles. This is 
 
 Grad-CAM saliency maps were computed for both models across all three classes to directly visualise which spatial regions drive predictions.
 
-|Model|Grad-CAM|
-|-|-|
-|Augmented|!\[Grad-CAM Augmented](results/deeplense\_gradcam\_Augmented\_Model.png)|
-|Clean|!\[Grad-CAM Clean](results/deeplense\_gradcam\_Clean\_Model.png)|
-
 **Key observations:**
 
 * **Both models attend to the Einstein ring/arc**, not to point-like features or background regions. This is the direct visual confirmation of the morphology-driven finding from the filtering and patch-shuffle probes.
-* For **`\[no]` substructure**, attention is distributed broadly and symmetrically along the full ring — the model is evaluating global ring coherence.
-* For **`\[sphere]` subhalo** and **`\[vort]` vortex**, attention shifts toward the **perturbed arc segments** — the regions where substructure breaks the ring's symmetry — which is exactly where the physically discriminating signal is located.
+* For **`\\\[no]` substructure**, attention is distributed broadly and symmetrically along the full ring — the model is evaluating global ring coherence.
+* For **`\\\[sphere]` subhalo** and **`\\\[vort]` vortex**, attention shifts toward the **perturbed arc segments** — the regions where substructure breaks the ring's symmetry — which is exactly where the physically discriminating signal is located.
 * The **augmented model** shows more spatially distributed, ring-following attention maps, suggesting it has learned a more robust and complete representation of the ring morphology.
 * The **clean model** tends to concentrate attention into a single dominant region rather than following the full arc, indicating a more brittle, less spatially consistent representation — consistent with its lower robustness under rotation.
 
@@ -197,7 +192,7 @@ This confirms that neither model is using spurious cues: both have learned to in
 |High-pass (σ=5)|0.5595|0.5248|Texture alone → at chance|
 |Patch shuffle (10×10)|0.4961|0.4937|Broken layout → at chance|
 
-> \*\*Conclusion:\*\* Classification is driven by \*\*large-scale global morphology\*\* (the shape, continuity, and radial profile of the Einstein ring/arc). Local texture contributes negligibly. This is physically intuitive — subhalo and vortex perturbations manifest as coherent distortions in the ring shape, not as local textural differences.
+> \\\*\\\*Conclusion:\\\*\\\* Classification is driven by \\\*\\\*large-scale global morphology\\\*\\\* (the shape, continuity, and radial profile of the Einstein ring/arc). Local texture contributes negligibly. This is physically intuitive — subhalo and vortex perturbations manifest as coherent distortions in the ring shape, not as local textural differences.
 
 \---
 
@@ -275,7 +270,7 @@ Both models collapse to chance upon masking just 20–40% of the center. This is
 |Brightness Shift|0.8424|0.7984|Clean|−0.044|
 |Center Masking|0.5356|0.5280|Clean|−0.008|
 
-> \*\*Conclusion:\*\* Augmentation provides large and meaningful robustness gains for corruptions it was trained against (noise: +0.155, rotation: +0.145). For corruptions not seen during training (brightness shift, center masking), both models perform similarly and neither is robust. This validates the role of augmentation as an inductive bias tool — it generalises to the specific invariances it encodes, not universally.
+> \\\*\\\*Conclusion:\\\*\\\* Augmentation provides large and meaningful robustness gains for corruptions it was trained against (noise: +0.155, rotation: +0.145). For corruptions not seen during training (brightness shift, center masking), both models perform similarly and neither is robust. This validates the role of augmentation as an inductive bias tool — it generalises to the specific invariances it encodes, not universally.
 
 \---
 
@@ -300,6 +295,4 @@ The augmented model is not universally more robust. It is specifically more robu
 * Exploring **equivariant architectures** (e.g., group-equivariant CNNs) could yield further rotation robustness beyond augmentation
 
 \---
-
-
 
